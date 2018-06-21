@@ -199,7 +199,11 @@ namespace distanceSensor {
     // __init__ changes the address (default to 0x54 >> 1 = 0x2A) to prevent conflicts.
     let DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
 
-    function DS_init() {
+    export function DS_VcselPeriodPreRange() {
+        return DS_VcselPeriodPreRange
+    }
+
+    export function DS_init() {
         // try resetting from ADDRESS_TARGET
         I2C_WriteReg8(DS_Constants.ADDRESS_TARGET, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
         DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
@@ -464,7 +468,7 @@ namespace distanceSensor {
     // seems to increase the likelihood of getting an inaccurate reading because of
     // unwanted reflections from objects other than the intended target.
     // Defaults to 0.25 MCPS as initialized by the ST API and this library.
-    function DS_set_signal_rate_limit_raw(limit_Mcps_raw: number) {
+    export function DS_set_signal_rate_limit_raw(limit_Mcps_raw: number) {
         // Being called with a constant, don't bother checking range and returning a value.
         //if (limit_Mcps < 0 or limit_Mcps > 65535):
         //    return false
@@ -821,7 +825,7 @@ namespace distanceSensor {
     // Returns a range reading in millimeters when continuous mode is active
     // (DS_read_range_single_millimeters() also calls this function after starting a
     // single-shot range measurement)
-    function DS_read_range_continuous_millimeters(): number {
+    export function DS_read_range_continuous_millimeters(): number {
         DS_start_timeout()
         while ((I2C_ReadReg8(DS_ADDRESS, DS_Constants.RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
             if (DS_check_timeout_expired()) {
@@ -854,7 +858,7 @@ namespace distanceSensor {
     //  pre:  12 to 18 (initialized default: 14)
     //  final: 8 to 14 (initialized default: 10)
     // based on VL53L0X_setVcselPulsePeriod()
-    function DS_set_vcsel_pulse_period(type: number, period_pclks: number): boolean {
+    export function DS_set_vcsel_pulse_period(type: number, period_pclks: number): boolean {
         let vcsel_period_reg = DS_encode_vcsel_period(period_pclks)
 
         let enables = DS_get_sequence_step_enables()
@@ -999,7 +1003,7 @@ namespace distanceSensor {
     // Performs a single-shot range measurement and returns the reading in
     // millimeters
     // based on VL53L0X_PerformSingleRangingMeasurement()
-    function DS_read_range_single_millimeters(): number {
+    export function DS_read_range_single_millimeters(): number {
         I2C_WriteReg8(DS_ADDRESS, 0x80, 0x01);
         I2C_WriteReg8(DS_ADDRESS, 0xFF, 0x01);
         I2C_WriteReg8(DS_ADDRESS, 0x00, 0x00);
