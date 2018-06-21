@@ -1,7 +1,8 @@
 {
-    "name": "GiggleBot-distancesensor",
+    "name": "distancesensor",
     "version": "v0.0.1",
     "dependencies": {
+        "core": "*"
     },
     "description": "",
     "files": [

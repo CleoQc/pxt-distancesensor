@@ -221,7 +221,7 @@ namespace distanceSensor {
 
         // set final range signal rate limit to 0.25 MCPS (million counts per second)
         // 0.25 * (1 << 7) = 32
-        DS_set_signal_rate_limit_raw(32)
+        setSignalRateLimitRaw(32)
 
         I2C_WriteReg8(DS_ADDRESS, DS_Constants.SYSTEM_SEQUENCE_CONFIG, 0xFF)
 
@@ -542,7 +542,7 @@ namespace distanceSensor {
     // intermediate values
     function DS_get_sequence_step_timeouts(pre_range: number): number[] {
         let SequenceStepTimeouts: number[] = [0, 0, 0, 0, 0, 0, 0, 0]
-        SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_vcsel_period_pclks] = DS_get_vcsel_pulse_period(DS_VcselPeriodPreRange)
+        SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_vcsel_period_pclks] = getVcselPulsePeriod(DS_VcselPeriodPreRange)
 
         SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.msrc_dss_tcc_mclks] = I2C_ReadReg8(DS_ADDRESS, DS_Constants.MSRC_CONFIG_TIMEOUT_MACROP) + 1
         SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.msrc_dss_tcc_us] = DS_timeout_mclks_to_microseconds(SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.msrc_dss_tcc_mclks], SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_vcsel_period_pclks])
@@ -550,7 +550,7 @@ namespace distanceSensor {
         SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_mclks] = DS_decode_timeout(I2C_ReadReg16(DS_ADDRESS, DS_Constants.PRE_RANGE_CONFIG_TIMEOUT_MACROP_HI))
         SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_us] = DS_timeout_mclks_to_microseconds(SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_mclks], SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.pre_range_vcsel_period_pclks])
 
-        SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.final_range_vcsel_period_pclks] = DS_get_vcsel_pulse_period(DS_VcselPeriodFinalRange)
+        SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.final_range_vcsel_period_pclks] = getVcselPulsePeriod(DS_VcselPeriodFinalRange)
 
         SequenceStepTimeouts[DS_IndexSequenceStepTimeouts.final_range_mclks] = DS_decode_timeout(I2C_ReadReg16(DS_ADDRESS, DS_Constants.FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI))
 
@@ -572,7 +572,7 @@ namespace distanceSensor {
 
     // Get the VCSEL pulse period in PCLKs for the given period type.
     // based on VL53L0X_get_vcsel_pulse_period()
-    function DS_get_vcsel_pulse_period(type: number): number {
+    function getVcselPulsePeriod(type: number): number {
         if (type == DS_VcselPeriodPreRange) {
             return DS_decode_vcsel_period(I2C_ReadReg8(DS_ADDRESS, DS_Constants.PRE_RANGE_CONFIG_VCSEL_PERIOD))
         } else if (type == DS_VcselPeriodFinalRange) {
@@ -773,7 +773,7 @@ namespace distanceSensor {
 
     // Did a timeout occur in one of the read functions since the last call to
     // timeout_occurred()?
-    function DS_timeout_occurred(): boolean {
+    function timeoutOccurred(): boolean {
         let tmp = DS_did_timeout
         DS_did_timeout = false
         return tmp
@@ -781,18 +781,19 @@ namespace distanceSensor {
 
     // Encode VCSEL pulse period register value from period in PCLKs
     // based on VL53L0X_encode_vcsel_period()
-    function DS_encode_vcsel_period(period_pclks: number): number {
+    function encodeVcselPeriod(period_pclks: number): number {
         return ((period_pclks >> 1) - 1)
     }
 
-
+    //
     // Distance Sensor exported functions
+    //
 
-    export function DS_VcselPeriodPreRange() {
+    export function vcselPeriodPreRange() {
         return DS_VcselPeriodPreRange
     }
 
-    export function DS_init() {
+    export function init() {
         // try resetting from ADDRESS_TARGET
         I2C_WriteReg8(DS_Constants.ADDRESS_TARGET, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
         DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
@@ -827,7 +828,7 @@ namespace distanceSensor {
     // seems to increase the likelihood of getting an inaccurate reading because of
     // unwanted reflections from objects other than the intended target.
     // Defaults to 0.25 MCPS as initialized by the ST API and this library.
-    export function DS_set_signal_rate_limit_raw(limit_Mcps_raw: number) {
+    export function setSignalRateLimitRaw(limit_Mcps_raw: number) {
         // Being called with a constant, don't bother checking range and returning a value.
         //if (limit_Mcps < 0 or limit_Mcps > 65535):
         //    return false
@@ -841,7 +842,7 @@ namespace distanceSensor {
     // Returns a range reading in millimeters when continuous mode is active
     // (DS_read_range_single_millimeters() also calls this function after starting a
     // single-shot range measurement)
-    export function DS_read_range_continuous_millimeters(): number {
+    export function readRangeContinuousMillimeters(): number {
         DS_start_timeout()
         while ((I2C_ReadReg8(DS_ADDRESS, DS_Constants.RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
             if (DS_check_timeout_expired()) {
@@ -867,8 +868,8 @@ namespace distanceSensor {
     //  pre:  12 to 18 (initialized default: 14)
     //  final: 8 to 14 (initialized default: 10)
     // based on VL53L0X_setVcselPulsePeriod()
-    export function DS_set_vcsel_pulse_period(type: number, period_pclks: number): boolean {
-        let vcsel_period_reg = DS_encode_vcsel_period(period_pclks)
+    export function setVcselPulsePeriod(type: number, period_pclks: number): boolean {
+        let vcsel_period_reg = encodeVcselPeriod(period_pclks)
 
         let enables = DS_get_sequence_step_enables()
         let timeouts = DS_get_sequence_step_timeouts(enables[DS_IndexSequenceStepEnables.pre_range])
@@ -1012,7 +1013,7 @@ namespace distanceSensor {
     // Performs a single-shot range measurement and returns the reading in
     // millimeters
     // based on VL53L0X_PerformSingleRangingMeasurement()
-    export function DS_read_range_single_millimeters(): number {
+    export function readRangeSingleMillimeters(): number {
         I2C_WriteReg8(DS_ADDRESS, 0x80, 0x01);
         I2C_WriteReg8(DS_ADDRESS, 0xFF, 0x01);
         I2C_WriteReg8(DS_ADDRESS, 0x00, 0x00);
@@ -1031,7 +1032,7 @@ namespace distanceSensor {
                 return -1 // timeout
             }
         }
-        return DS_read_range_continuous_millimeters()
+        return readRangeContinuousMillimeters()
     }
 
 
