@@ -734,13 +734,64 @@ namespace distanceSensor {
         return true
     }
 
-    // Start continuous ranging measurements. If period_ms (optional) is 0 or not
+    // Did a timeout occur in one of the read functions since the last call to
+    // timeout_occurred()?
+    function timeoutOccurred(): boolean {
+        let tmp = DS_did_timeout
+        DS_did_timeout = false
+        return tmp
+    }
+
+    // Encode VCSEL pulse period register value from period in PCLKs
+    // based on VL53L0X_encode_vcsel_period()
+    function encodeVcselPeriod(period_pclks: number): number {
+        return ((period_pclks >> 1) - 1)
+    }
+
+    //
+    // Distance Sensor exported functions
+    //
+
+    export function vcselPeriodPreRange() {
+        return DS_VcselPeriodPreRange
+    }
+    export function vcselPeriodFinalRange() {
+        return DS_VcselPeriodFinalRange
+    }
+
+    export function init() {
+        // try resetting from ADDRESS_TARGET
+        I2C_WriteReg8(DS_Constants.ADDRESS_TARGET, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
+        DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
+        basic.pause(2)
+
+        // reset ADDRESS_DEFAULT
+        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
+
+        basic.pause(5)
+
+        // release reset
+        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x01)
+
+        basic.pause(5)
+
+        DS_set_address(DS_Constants.ADDRESS_TARGET)
+        DS_ADDRESS = DS_Constants.ADDRESS_TARGET
+
+        // initialize the sensor
+        DS_initialize()
+
+        // set the timeout
+        DS_set_timeout(500) // 0.5 seconds
+    }
+
+        // Start continuous ranging measurements. If period_ms (optional) is 0 or not
     // given, continuous back-to-back mode is used (the sensor takes measurements as
     // often as possible) otherwise, continuous timed mode is used, with the given
     // inter-measurement period in milliseconds determining how often the sensor
     // takes a measurement.
     // based on VL53L0X_StartMeasurement()
-    function DS_start_continuous(period_ms: number) { // period_ms = 0
+    export function startContinuous(period_ms: number) { // period_ms = 0
         I2C_WriteReg8(DS_ADDRESS, 0x80, 0x01)
         I2C_WriteReg8(DS_ADDRESS, 0xFF, 0x01)
         I2C_WriteReg8(DS_ADDRESS, 0x00, 0x00)
@@ -771,53 +822,6 @@ namespace distanceSensor {
         }
     }
 
-    // Did a timeout occur in one of the read functions since the last call to
-    // timeout_occurred()?
-    function timeoutOccurred(): boolean {
-        let tmp = DS_did_timeout
-        DS_did_timeout = false
-        return tmp
-    }
-
-    // Encode VCSEL pulse period register value from period in PCLKs
-    // based on VL53L0X_encode_vcsel_period()
-    function encodeVcselPeriod(period_pclks: number): number {
-        return ((period_pclks >> 1) - 1)
-    }
-
-    //
-    // Distance Sensor exported functions
-    //
-
-    export function vcselPeriodPreRange() {
-        return DS_VcselPeriodPreRange
-    }
-
-    export function init() {
-        // try resetting from ADDRESS_TARGET
-        I2C_WriteReg8(DS_Constants.ADDRESS_TARGET, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
-        DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
-        basic.pause(2)
-
-        // reset ADDRESS_DEFAULT
-        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
-
-        basic.pause(5)
-
-        // release reset
-        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x01)
-
-        basic.pause(5)
-
-        DS_set_address(DS_Constants.ADDRESS_TARGET)
-        DS_ADDRESS = DS_Constants.ADDRESS_TARGET
-
-        // initialize the sensor
-        DS_initialize()
-
-        // set the timeout
-        DS_set_timeout(500) // 0.5 seconds
-    }
 
 
     // Set the return signal rate limit check value in units of MCPS (mega counts
