@@ -1,91 +1,125 @@
-enum DS_Constants {
-    SYSRANGE_START = 0x00,
-
-    SYSTEM_THRESH_HIGH = 0x0C,
-    SYSTEM_THRESH_LOW = 0x0E,
-
-    SYSTEM_SEQUENCE_CONFIG = 0x01,
-    SYSTEM_RANGE_CONFIG = 0x09,
-    SYSTEM_INTERMEASUREMENT_PERIOD = 0x04,
-
-    SYSTEM_INTERRUPT_CONFIG_GPIO = 0x0A,
-
-    GPIO_HV_MUX_ACTIVE_HIGH = 0x84,
-
-    SYSTEM_INTERRUPT_CLEAR = 0x0B,
-
-    RESULT_INTERRUPT_STATUS = 0x13,
-    RESULT_RANGE_STATUS = 0x14,
-
-    RESULT_CORE_AMBIENT_WINDOW_EVENTS_RTN = 0xBC,
-    RESULT_CORE_RANGING_TOTAL_EVENTS_RTN = 0xC0,
-    RESULT_CORE_AMBIENT_WINDOW_EVENTS_REF = 0xD0,
-    RESULT_CORE_RANGING_TOTAL_EVENTS_REF = 0xD4,
-    RESULT_PEAK_SIGNAL_RATE_REF = 0xB6,
-
-    ALGO_PART_TO_PART_RANGE_OFFSET_MM = 0x28,
-
-    I2C_SLAVE_DEVICE_ADDRESS = 0x8A,
-
-    MSRC_CONFIG_CONTROL = 0x60,
-
-    PRE_RANGE_CONFIG_MIN_SNR = 0x27,
-    PRE_RANGE_CONFIG_VALID_PHASE_LOW = 0x56,
-    PRE_RANGE_CONFIG_VALID_PHASE_HIGH = 0x57,
-    PRE_RANGE_MIN_COUNT_RATE_RTN_LIMIT = 0x64,
-
-    FINAL_RANGE_CONFIG_MIN_SNR = 0x67,
-    FINAL_RANGE_CONFIG_VALID_PHASE_LOW = 0x47,
-    FINAL_RANGE_CONFIG_VALID_PHASE_HIGH = 0x48,
-    FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT = 0x44,
-
-    PRE_RANGE_CONFIG_SIGMA_THRESH_HI = 0x61,
-    PRE_RANGE_CONFIG_SIGMA_THRESH_LO = 0x62,
-
-    PRE_RANGE_CONFIG_VCSEL_PERIOD = 0x50,
-    PRE_RANGE_CONFIG_TIMEOUT_MACROP_HI = 0x51,
-    PRE_RANGE_CONFIG_TIMEOUT_MACROP_LO = 0x52,
-
-    SYSTEM_HISTOGRAM_BIN = 0x81,
-    HISTOGRAM_CONFIG_INITIAL_PHASE_SELECT = 0x33,
-    HISTOGRAM_CONFIG_READOUT_CTRL = 0x55,
-
-    FINAL_RANGE_CONFIG_VCSEL_PERIOD = 0x70,
-    FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI = 0x71,
-    FINAL_RANGE_CONFIG_TIMEOUT_MACROP_LO = 0x72,
-    CROSSTALK_COMPENSATION_PEAK_RATE_MCPS = 0x20,
-
-    MSRC_CONFIG_TIMEOUT_MACROP = 0x46,
-
-    SOFT_RESET_GO2_SOFT_RESET_N = 0xBF,
-    IDENTIFICATION_MODEL_ID = 0xC0,
-    IDENTIFICATION_REVISION_ID = 0xC2,
-
-    OSC_CALIBRATE_VAL = 0xF8,
-
-    GLOBAL_CONFIG_VCSEL_WIDTH = 0x32,
-    GLOBAL_CONFIG_SPAD_ENABLES_REF_0 = 0xB0,
-    GLOBAL_CONFIG_SPAD_ENABLES_REF_1 = 0xB1,
-    GLOBAL_CONFIG_SPAD_ENABLES_REF_2 = 0xB2,
-    GLOBAL_CONFIG_SPAD_ENABLES_REF_3 = 0xB3,
-    GLOBAL_CONFIG_SPAD_ENABLES_REF_4 = 0xB4,
-    GLOBAL_CONFIG_SPAD_ENABLES_REF_5 = 0xB5,
-
-    GLOBAL_CONFIG_REF_EN_START_SELECT = 0xB6,
-    DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD = 0x4E,
-    DYNAMIC_SPAD_REF_EN_START_OFFSET = 0x4F,
-    POWER_MANAGEMENT_GO1_POWER_FORCE = 0x80,
-
-    VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV = 0x89,
-
-    ALGO_PHASECAL_LIM = 0x30,
-    ALGO_PHASECAL_CONFIG_TIMEOUT = 0x30,
-
-    ADDRESS_DEFAULT = 0x29,
-    ADDRESS_TARGET = 0x2A
-}
 
 namespace distanceSensor {
+    enum DS_Constants {
+        SYSRANGE_START = 0x00,
+
+        SYSTEM_THRESH_HIGH = 0x0C,
+        SYSTEM_THRESH_LOW = 0x0E,
+
+        SYSTEM_SEQUENCE_CONFIG = 0x01,
+        SYSTEM_RANGE_CONFIG = 0x09,
+        SYSTEM_INTERMEASUREMENT_PERIOD = 0x04,
+
+        SYSTEM_INTERRUPT_CONFIG_GPIO = 0x0A,
+
+        GPIO_HV_MUX_ACTIVE_HIGH = 0x84,
+
+        SYSTEM_INTERRUPT_CLEAR = 0x0B,
+
+        RESULT_INTERRUPT_STATUS = 0x13,
+        RESULT_RANGE_STATUS = 0x14,
+
+        RESULT_CORE_AMBIENT_WINDOW_EVENTS_RTN = 0xBC,
+        RESULT_CORE_RANGING_TOTAL_EVENTS_RTN = 0xC0,
+        RESULT_CORE_AMBIENT_WINDOW_EVENTS_REF = 0xD0,
+        RESULT_CORE_RANGING_TOTAL_EVENTS_REF = 0xD4,
+        RESULT_PEAK_SIGNAL_RATE_REF = 0xB6,
+
+        ALGO_PART_TO_PART_RANGE_OFFSET_MM = 0x28,
+
+        I2C_SLAVE_DEVICE_ADDRESS = 0x8A,
+
+        MSRC_CONFIG_CONTROL = 0x60,
+
+        PRE_RANGE_CONFIG_MIN_SNR = 0x27,
+        PRE_RANGE_CONFIG_VALID_PHASE_LOW = 0x56,
+        PRE_RANGE_CONFIG_VALID_PHASE_HIGH = 0x57,
+        PRE_RANGE_MIN_COUNT_RATE_RTN_LIMIT = 0x64,
+
+        FINAL_RANGE_CONFIG_MIN_SNR = 0x67,
+        FINAL_RANGE_CONFIG_VALID_PHASE_LOW = 0x47,
+        FINAL_RANGE_CONFIG_VALID_PHASE_HIGH = 0x48,
+        FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT = 0x44,
+
+        PRE_RANGE_CONFIG_SIGMA_THRESH_HI = 0x61,
+        PRE_RANGE_CONFIG_SIGMA_THRESH_LO = 0x62,
+
+        PRE_RANGE_CONFIG_VCSEL_PERIOD = 0x50,
+        PRE_RANGE_CONFIG_TIMEOUT_MACROP_HI = 0x51,
+        PRE_RANGE_CONFIG_TIMEOUT_MACROP_LO = 0x52,
+
+        SYSTEM_HISTOGRAM_BIN = 0x81,
+        HISTOGRAM_CONFIG_INITIAL_PHASE_SELECT = 0x33,
+        HISTOGRAM_CONFIG_READOUT_CTRL = 0x55,
+
+        FINAL_RANGE_CONFIG_VCSEL_PERIOD = 0x70,
+        FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI = 0x71,
+        FINAL_RANGE_CONFIG_TIMEOUT_MACROP_LO = 0x72,
+        CROSSTALK_COMPENSATION_PEAK_RATE_MCPS = 0x20,
+
+        MSRC_CONFIG_TIMEOUT_MACROP = 0x46,
+
+        SOFT_RESET_GO2_SOFT_RESET_N = 0xBF,
+        IDENTIFICATION_MODEL_ID = 0xC0,
+        IDENTIFICATION_REVISION_ID = 0xC2,
+
+        OSC_CALIBRATE_VAL = 0xF8,
+
+        GLOBAL_CONFIG_VCSEL_WIDTH = 0x32,
+        GLOBAL_CONFIG_SPAD_ENABLES_REF_0 = 0xB0,
+        GLOBAL_CONFIG_SPAD_ENABLES_REF_1 = 0xB1,
+        GLOBAL_CONFIG_SPAD_ENABLES_REF_2 = 0xB2,
+        GLOBAL_CONFIG_SPAD_ENABLES_REF_3 = 0xB3,
+        GLOBAL_CONFIG_SPAD_ENABLES_REF_4 = 0xB4,
+        GLOBAL_CONFIG_SPAD_ENABLES_REF_5 = 0xB5,
+
+        GLOBAL_CONFIG_REF_EN_START_SELECT = 0xB6,
+        DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD = 0x4E,
+        DYNAMIC_SPAD_REF_EN_START_OFFSET = 0x4F,
+        POWER_MANAGEMENT_GO1_POWER_FORCE = 0x80,
+
+        VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV = 0x89,
+
+        ALGO_PHASECAL_LIM = 0x30,
+        ALGO_PHASECAL_CONFIG_TIMEOUT = 0x30,
+
+        ADDRESS_DEFAULT = 0x29,
+        ADDRESS_TARGET = 0x2A
+    }
+
+    enum DS_IndexSequenceStepEnables {
+        tcc,
+        msrc,
+        dss,
+        pre_range,
+        final_range
+    }
+
+    enum DS_IndexSequenceStepTimeouts {
+        pre_range_vcsel_period_pclks,
+        final_range_vcsel_period_pclks,
+        msrc_dss_tcc_mclks,
+        pre_range_mclks,
+        final_range_mclks,
+        msrc_dss_tcc_us,
+        pre_range_us,
+        final_range_us
+    }
+
+    let DS_VcselPeriodPreRange = 0
+    let DS_VcselPeriodFinalRange = 1
+
+    // "global variables"
+    let DS_io_timeout = 0
+    let DS_did_timeout = false
+    let DS_stop_variable = 0
+    let DS_timeout_start = 0
+    let DS_measurement_timing_budget_us = 0
+
+    // The I2C address is software programmable (volatile), and defaults to 0x52 >> 1 = 0x29.
+    // __init__ changes the address (default to 0x54 >> 1 = 0x2A) to prevent conflicts.
+    let DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
+
 
     // I2C functions
 
@@ -163,77 +197,10 @@ namespace distanceSensor {
         return list
     }
 
-    // Distance Sensor blocks and functions
-
-    let DS_VcselPeriodPreRange = 0
-    let DS_VcselPeriodFinalRange = 1
-
-    // "global variables"
-    let DS_io_timeout = 0
-    let DS_did_timeout = false
-    let DS_stop_variable = 0
-    let DS_timeout_start = 0
-    let DS_measurement_timing_budget_us = 0
-
-
-    enum DS_IndexSequenceStepEnables {
-        tcc,
-        msrc,
-        dss,
-        pre_range,
-        final_range
-    }
-
-    enum DS_IndexSequenceStepTimeouts {
-        pre_range_vcsel_period_pclks,
-        final_range_vcsel_period_pclks,
-        msrc_dss_tcc_mclks,
-        pre_range_mclks,
-        final_range_mclks,
-        msrc_dss_tcc_us,
-        pre_range_us,
-        final_range_us
-    }
-
-    // The I2C address is software programmable (volatile), and defaults to 0x52 >> 1 = 0x29.
-    // __init__ changes the address (default to 0x54 >> 1 = 0x2A) to prevent conflicts.
-    let DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
-
-    export function DS_VcselPeriodPreRange() {
-        return DS_VcselPeriodPreRange
-    }
-
-    export function DS_init() {
-        // try resetting from ADDRESS_TARGET
-        I2C_WriteReg8(DS_Constants.ADDRESS_TARGET, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
-        DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
-        basic.pause(2)
-
-        // reset ADDRESS_DEFAULT
-        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
-
-        basic.pause(5)
-
-        // release reset
-        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x01)
-
-        basic.pause(5)
-
-        DS_set_address(DS_Constants.ADDRESS_TARGET)
-        DS_ADDRESS = DS_Constants.ADDRESS_TARGET
-
-        // initialize the sensor
-        DS_initialize()
-
-        // set the timeout
-        DS_set_timeout(500) // 0.5 seconds
-    }
-
     function DS_set_address(address: number) {
         address &= 0x7f
         I2C_WriteReg8(DS_ADDRESS, DS_Constants.I2C_SLAVE_DEVICE_ADDRESS, address)
     }
-
     function DS_initialize(): boolean {
         // set bit 0
         I2C_WriteReg8(DS_ADDRESS, DS_Constants.VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV, (I2C_ReadReg8(DS_ADDRESS, DS_Constants.VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV) | 0x01))
@@ -460,25 +427,7 @@ namespace distanceSensor {
         DS_io_timeout = timeout
     }
 
-    // Set the return signal rate limit check value in units of MCPS (mega counts
-    // per second). "This represents the amplitude of the signal reflected from the
-    // target and detected by the device"; setting this limit presumably determines
-    // the minimum measurement necessary for the sensor to report a valid reading.
-    // Setting a lower limit increases the potential range of the sensor but also
-    // seems to increase the likelihood of getting an inaccurate reading because of
-    // unwanted reflections from objects other than the intended target.
-    // Defaults to 0.25 MCPS as initialized by the ST API and this library.
-    export function DS_set_signal_rate_limit_raw(limit_Mcps_raw: number) {
-        // Being called with a constant, don't bother checking range and returning a value.
-        //if (limit_Mcps < 0 or limit_Mcps > 65535):
-        //    return false
-
-        // Q9.7 fixed point format (9 integer bits, 7 fractional bits)
-        I2C_WriteReg16(DS_ADDRESS, DS_Constants.FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT, limit_Mcps_raw)
-        //return true
-    }
-
-    // Get reference SPAD (single photon avalanche diode) count and type
+        // Get reference SPAD (single photon avalanche diode) count and type
     // based on VL53L0X_get_info_from_device(),
     // but only gets reference SPAD count and type
     function DS_get_spad_info(): number[] {
@@ -822,6 +771,73 @@ namespace distanceSensor {
         }
     }
 
+    // Did a timeout occur in one of the read functions since the last call to
+    // timeout_occurred()?
+    function DS_timeout_occurred(): boolean {
+        let tmp = DS_did_timeout
+        DS_did_timeout = false
+        return tmp
+    }
+
+    // Encode VCSEL pulse period register value from period in PCLKs
+    // based on VL53L0X_encode_vcsel_period()
+    function DS_encode_vcsel_period(period_pclks: number): number {
+        return ((period_pclks >> 1) - 1)
+    }
+
+
+    // Distance Sensor exported functions
+
+    export function DS_VcselPeriodPreRange() {
+        return DS_VcselPeriodPreRange
+    }
+
+    export function DS_init() {
+        // try resetting from ADDRESS_TARGET
+        I2C_WriteReg8(DS_Constants.ADDRESS_TARGET, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
+        DS_ADDRESS = DS_Constants.ADDRESS_DEFAULT
+        basic.pause(2)
+
+        // reset ADDRESS_DEFAULT
+        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x00)
+
+        basic.pause(5)
+
+        // release reset
+        I2C_WriteReg8(DS_ADDRESS, DS_Constants.SOFT_RESET_GO2_SOFT_RESET_N, 0x01)
+
+        basic.pause(5)
+
+        DS_set_address(DS_Constants.ADDRESS_TARGET)
+        DS_ADDRESS = DS_Constants.ADDRESS_TARGET
+
+        // initialize the sensor
+        DS_initialize()
+
+        // set the timeout
+        DS_set_timeout(500) // 0.5 seconds
+    }
+
+
+    // Set the return signal rate limit check value in units of MCPS (mega counts
+    // per second). "This represents the amplitude of the signal reflected from the
+    // target and detected by the device"; setting this limit presumably determines
+    // the minimum measurement necessary for the sensor to report a valid reading.
+    // Setting a lower limit increases the potential range of the sensor but also
+    // seems to increase the likelihood of getting an inaccurate reading because of
+    // unwanted reflections from objects other than the intended target.
+    // Defaults to 0.25 MCPS as initialized by the ST API and this library.
+    export function DS_set_signal_rate_limit_raw(limit_Mcps_raw: number) {
+        // Being called with a constant, don't bother checking range and returning a value.
+        //if (limit_Mcps < 0 or limit_Mcps > 65535):
+        //    return false
+
+        // Q9.7 fixed point format (9 integer bits, 7 fractional bits)
+        I2C_WriteReg16(DS_ADDRESS, DS_Constants.FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT, limit_Mcps_raw)
+        //return true
+    }
+
+
     // Returns a range reading in millimeters when continuous mode is active
     // (DS_read_range_single_millimeters() also calls this function after starting a
     // single-shot range measurement)
@@ -843,13 +859,6 @@ namespace distanceSensor {
         return range
     }
 
-    // Did a timeout occur in one of the read functions since the last call to
-    // timeout_occurred()?
-    function DS_timeout_occurred(): boolean {
-        let tmp = DS_did_timeout
-        DS_did_timeout = false
-        return tmp
-    }
 
     // Set the VCSEL (vertical cavity surface emitting laser) pulse period for the
     // given period type (pre-range or final range) to the given value in PCLKs.
@@ -1025,10 +1034,6 @@ namespace distanceSensor {
         return DS_read_range_continuous_millimeters()
     }
 
-    // Encode VCSEL pulse period register value from period in PCLKs
-    // based on VL53L0X_encode_vcsel_period()
-    function DS_encode_vcsel_period(period_pclks: number): number {
-        return ((period_pclks >> 1) - 1)
-    }
+
 
 }

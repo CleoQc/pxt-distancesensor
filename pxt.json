@@ -5,6 +5,6 @@
     },
     "description": "",
     "files": [
-        "custom.ts"
+        "distancesensor.ts"
     ]
 }
