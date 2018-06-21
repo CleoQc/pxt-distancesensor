@@ -755,6 +755,7 @@ namespace distanceSensor {
     export function vcselPeriodPreRange() {
         return DS_VcselPeriodPreRange
     }
+    
     export function vcselPeriodFinalRange() {
         return DS_VcselPeriodFinalRange
     }
