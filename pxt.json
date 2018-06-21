@@ -1,0 +1,10 @@
+{
+    "name": "GiggleBot-distancesensor",
+    "version": "v0.0.1",
+    "dependencies": {
+    },
+    "description": "",
+    "files": [
+        "custom.ts"
+    ]
+}
