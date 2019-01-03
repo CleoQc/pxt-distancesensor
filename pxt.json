@@ -6,6 +6,7 @@
     },
     "description": "",
     "files": [
-        "distancesensor.ts"
+        "distancesensor.ts",
+        "thpsensor.ts"
     ]
 }
