@@ -1,11 +1,13 @@
 {
-    "name": "distancesensor",
-    "version": "v0.0.3",
+    "name": "gigglesensors",
+    "version": "v0.0.4",
     "dependencies": {
         "core": "*"
     },
     "description": "",
     "files": [
-        "distancesensor.ts"
+        "i2cio.ts",
+        "distancesensor.ts",
+        "thpsensor.ts"
     ]
 }
