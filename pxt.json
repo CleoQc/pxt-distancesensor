@@ -4,7 +4,7 @@
     "dependencies": {
         "core": "*"
     },
-    "description": "",
+    "description": "External Sensors for the GiggleBot: distance sensor, and THP sensor",
     "files": [
         "i2cio.ts",
         "distancesensor.ts",
